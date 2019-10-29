@@ -3,6 +3,7 @@ import { load } from 'cheerio';
 import { Feed } from 'feed';
 import { strptime } from 'micro-strptime';
 import { format } from 'date-fns';
+import { FeedWrapper } from './FeedWrapper';
 
 export async function androidRss(appId) {
   const url = `https://play.google.com/store/apps/details?id=${appId}&hl=ja`;
@@ -31,27 +32,21 @@ export async function androidRss(appId) {
     .find('span')
     .text();
 
-  const feed = new Feed({
-    title: name + 'for Anroid update information.',
-    description: name + 'for Android update information.',
-    generator:
-      'mobileapp-releasse-rss (https://github.com/sakamossan/mobileapp-release-rss)',
-    id: url,
-    link: url,
-    updated: datePublished,
-    language: 'ja', // optional, used only in RSS 2.0, possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
-    image: image,
-    favicon: 'https://www.gstatic.com/android/market_images/web/favicon_v2.ico',
-    copyright: 'Crawled from GooglePlay',
-    feedLinks: {},
-    author: {},
-  });
-  feed.addItem({
-    title: name + ' for Android updated. published:' + dateFormated,
-    guid: `Android:${appId}:v:${dateFormated}`,
-    link: url,
-    description: recentChange,
-    date: datePublished,
-  });
-  return feed.rss2();
+  const feed = new FeedWrapper();
+  feed.setTitle(name + 'for Anroid update information.');
+  feed.setDescription(name + 'for Android update information.');
+  feed.setGenerator('mobileapp-releasse-rss (https://github.com/sakamossan/mobileapp-release-rss)',
+  );
+  feed.setId(url);
+  feed.setLink(url);
+  feed.setUpdated(datePublished);
+  feed.setImage(image);
+  feed.setFavicon('https://www.gstatic.com/android/market_images/web/favicon_v2.ico');
+  feed.setCopyright('Crawled from GooglePlay');
+  feed.setItemTitle(name + ' for Android updated. published:' + dateFormated);
+  feed.setItemGuid(`Android:${appId}:v:${dateFormated}`);
+  feed.setItemLink(url);
+  feed.setItemDescription(recentChange);
+  feed.setItemDate(datePublished);
+  return feed;
 }

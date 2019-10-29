@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>test title</title>
+        <link>https://test-link.test</link>
+        <description>test description</description>
+        <lastBuildDate>Fri, 11 Oct 2019 17:07:10 GMT</lastBuildDate>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <generator>test generator</generator>
+        <language>ja</language>
+        <image>
+            <title>test title</title>
+            <url>https://test-image.test</url>
+            <link>https://test-link.test</link>
+        </image>
+        <copyright>test copyright</copyright>
+        <item>
+            <title><![CDATA[test item title]]></title>
+            <link>https://test-item-link.test</link>
+            <guid>TESTGUID</guid>
+            <pubDate>Fri, 11 Oct 2019 17:16:57 GMT</pubDate>
+            <description><![CDATA[test item description]]></description>
+        </item>
+    </channel>
+</rss>

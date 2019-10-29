@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { Feed } from 'feed';
 import { strptime } from 'micro-strptime';
+import { FeedWrapper } from './FeedWrapper';
 
 export async function iosRss(appId) {
   const url = 'https://itunes.apple.com/lookup?id=' + appId + '&country=JP';
@@ -16,27 +17,22 @@ export async function iosRss(appId) {
   const version = appInfo.version;
   const link = 'https://apps.apple.com/jp/app/id' + appId;
 
-  const feed = new Feed({
-    title: name + 'for iOS update information.',
-    description: name + 'for iOS update information.',
-    generator:
-      'mobileapp-releasse-rss (https://github.com/sakamossan/mobileapp-release-rss)',
-    id: link,
-    link: link,
-    updated: updated,
-    language: 'ja', // optional, used only in RSS 2.0, possible values: http://www.w3.org/TR/REC-html40/struct/dirlang.html#langcodes
-    image: image,
-    favicon: 'https://www.apple.com/favicon.ico',
-    copyright: 'Crawled from App Store',
-    feedLinks: {},
-    author: {},
-  });
-  feed.addItem({
-    title: name + ' for iOS updated. version:' + version,
-    guid: `iOS:${appId}:v:${version}`,
-    link: link,
-    description: releaseNotes,
-    date: updated,
-  });
-  return feed.rss2();
+  const feed = new FeedWrapper();
+  feed.setTitle(name + 'for iOS update information.');
+  feed.setDescription(name + 'for iOS update information.');
+  feed.setGenerator(
+    'mobileapp-releasse-rss (https://github.com/sakamossan/mobileapp-release-rss)',
+  );
+  feed.setId(link);
+  feed.setUpdated(updated);
+  feed.setImage(image);
+  feed.setFavicon('https://www.apple.com/favicon.ico');
+  feed.setCopyright('Crawled from App Store');
+  feed.setItemTitle(name + ' for iOS updated. version:' + version);
+  feed.setItemGuid(`iOS:${appId}:v:${version}`);
+  feed.setItemLink(link);
+  feed.setItemDescription(releaseNotes);
+  feed.setItemDate(updated);
+
+  return feed;
 }
